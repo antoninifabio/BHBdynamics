@@ -98,7 +98,8 @@
       rho=3.d0*tabm(1)/(8.d0*pi*tabr(1)**3)
       vesc=50.d0*(tabm(1)/1.d5)**(1./3.)*(rho/1.d5)**(1./6.)
       if(vesc.gt.300.and.rho.gt.1.e5)then
-         print*,"density too high; try lower r_h",vesc,rho !hierarchical growth expected (Antonini et al.'18)
+         print*,
+     &    "vesc>300km/s; hierarchical growth expected" !hierarchical growth expected (Antonini et al.'18)
          stop
       end if
 
