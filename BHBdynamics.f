@@ -47,14 +47,14 @@
       write(77,*)"time[Gyr], N_in(<t), N_out(<t)"
       
       eccen=1.d5
-      dt=0.1                    !output stepsize
+      dt=0.05                   !output stepsize
       t=0.d0      
       i=0
       do 
          i=i+1                 
          td0=tf-t
          t=t+dt*1.d9
-         if(td0.lt.0)exit
+         if(td0.lt.0)exit 
          
 !     in-cluster mergers
          X0=0.
@@ -72,14 +72,9 @@
          X1=tf        
          call dqag (fun2,X0,X1,epsabs, epsrel, key, Fej2,abserr, 
      &        neval, ier, limit, lenw, last, iwork, work )
-
-      
-         if(Fin+Fej1+Fej2.gt.0)then
-            tfin=td0/1.e9-dt       
-            write(77,*)td0/1.e9,real(Fin),real(Fej1+Fej2)
-         end if                  
-      end do
-      if(tfin.ge.0.d0)write(77,*)tfin,0.d0,0.d0
+         
+         write(77,"(F14.2,2F14.7)")td0/1.d9,Fin,Fej1+Fej2
+         end do
       
       
 !     Cumulative eccentricity distribution of binaries that merge at t<td
@@ -99,9 +94,8 @@
       call dqag (fun2,X0,X1,epsabs, epsrel, key, Fej2,abserr, 
      &     neval, ier, limit, lenw, last, iwork, work )            
       Ntot=Fin+Fej1+Fej2        !total number of mergers within td
-
       
-      step=0.02
+      step=0.01
       dec=0.
       do while(Ntot.gt.0)
          dec=dec+step
@@ -123,11 +117,8 @@
          call dqag (fun2,X0,X1,epsabs, epsrel, key, Fej2,abserr, 
      &        neval, ier, limit, lenw, last, iwork, work )               
          
-         if(eccen.ge.1.d0)then
-            write(99,*)1.d0,1.d0
-            exit
-         end if
-            write(99,*)eccen,real((Fin+Fej1+Fej2)/Ntot)
+         if(eccen.ge.1.d0)exit
+         write(99,"(ES14.7,F14.7)")eccen,(Fej1+Fej2+Fin)/Ntot
       enddo
       
       
