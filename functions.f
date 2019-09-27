@@ -46,7 +46,7 @@
       trh=2.06d5*sqrt(Mcl)*rh**1.5/psi/m_mean
       Edot=1.53d-7*csi*(Mcl**2/rh)/trh !convert to M_sun, 1AU, G=1
     
-!     binary properties: assume BHs have same mass!
+!     binary properties: assume all BHs have same mass!
       m2=m1
       m3=m1
       Mb=m1+m2
@@ -86,7 +86,7 @@
 
       double precision function funej(s)
 !     compute number of BH mergers with eccentricity <e that come from binaries
-!     that are produced at  t<td
+!     that are ejected at t<td
       USE commonV
       USE modelPar
       USE inputPar
@@ -169,9 +169,9 @@
       end   
       
       
-      double precision function fun2(s)
+      double precision function funej2(s)
 !     compute number of BH mergers with eccentricity <e that come from binaries
-!     that are produced at t>td
+!     that are ejected at t>td but merger at t<td
       USE commonV
       USE modelPar
       USE inputPar
@@ -257,9 +257,9 @@
 
       mej=Mb+m3/(1.-epsilon)*max(log(aej/agw/q3**2),0.) !mass ejected by binary
       Gamma=(beta*Mcl/trh)/mej  !formation rate of binaries      
-      fun2=(F1-F2)*Gamma
+      funej2=(F1-F2)*Gamma
 
-      if(Mbh.le.10.or.t/1.d9.lt.tcc.or.fun2.lt.0)fun2=0.d0
+      if(Mbh.le.10.or.t/1.d9.lt.tcc.or.funej2.lt.0)funej2=0.d0
       return
       end   
 
