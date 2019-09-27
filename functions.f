@@ -65,18 +65,15 @@
       
       Pgw=7./10./(1.-epsilon)*g**2/agw**(10./7.)
       Pcap=K2/agw**(5./7.)
-      Pin=Pgw+Pcap
      
       fL=freq*ut             
       x=eccen
       F=1.*(1./fL)**(2./3.)*(1./x)**(12./19.)
      &     *(1./(1.+121./304.*x**2))**(870./2299.)*(1.+x)**(0.7969)
 
-      Ngw=max(((7./10.*(1./agw)**(10./7.)*g**2)-
-     &     (Mb**(1./3.)/pi**(2./3.)
-     &     /agw*F))/(7./10.*(1./agw)**(10./7.)*g**2),0.d0)    
+      Ngw=max((Pgw*(1.-epsilon)-(Mb**(1./3.)/pi**(2./3.)
+     &     /agw*F))/(Pgw*(1.-epsilon)),0.d0)      
       elcap=2.*(Rs/agw)**(5./7.)
-
       Ncap=max((elcap-(Mb**(1./3.)/pi**(2./3.)
      &     /agw*F)*5./7.)/elcap,0.d0) 
       
@@ -162,11 +159,8 @@
       fL=freq*ut             
       x=eccen
       F=1.*(1./fL)**(2./3.)*(1./x)**(12./19.)
-     &     *(1./(1.+121./304.*x**2))**(870./2299.)*(1.+x)**(0.7969)
-     
-      Nej=max((((0.7e-1/aej)**(8./7.)*(m1*m2*Mb/1.e3*s/1.e10)**(2./7.))
-     &     -(Mb/pi**2)**(1./3.)*F/aej)/
-     &    ((0.7e-1/aej)**(8./7.)*(m1*m2*Mb/1.e3*s/1.e10)**(2./7.)),0.d0)    
+     &     *(1./(1.+121./304.*x**2))**(870./2299.)*(1.+x)**(0.7969)     
+      Nej=max((Pex-(Mb/pi**2)**(1./3.)*F/aej)/Pex,0.d0)
       
       mej=Mb+m3/(1.d0-epsilon)*max(log(aej/agw/q3**2),0.) !mass ejected by binary
           
@@ -187,7 +181,7 @@
       real*8 s,aej,agw,agw2,c,eccen,X0,X1,Edot,elcap,epsilon,F,fbh,fL
       real*8 g, Gamma, K1,K2,m1,m2,m3,Mb,Mbh,Mcl,mej,Ncap,Nej,Ngw,Nis,P
       real*8 Pcap,Pej,Pex,Pgw,pi,Pin,psi,q3,rh,Rs,t,ut,vesc,x,trh,F1,F2
-      real*8 funm,SevalDouble
+      real*8 funm,SevalDouble,Pex_p
       common/ecc/eccen,X0,X1
       pi=2.d0*ASIN(1.d0)      
       ut=58.*24.*60.*60.
@@ -252,20 +246,15 @@
       F=1.*(1./fL)**(2./3.)*(1./x)**(12./19.)
      &     *(1./(1.+121./304.*x**2))**(870./2299.)*(1.+x)**(0.7969)
 
-      Nej=max((((0.7e-1/aej)**(8./7.)*(m1*m2*Mb/1.e3*s/1.e10)**(2./7.))
-     &     -(Mb/pi**2)**(1./3.)*F/aej)/
-     &    ((0.7e-1/aej)**(8./7.)*(m1*m2*Mb/1.e3*s/1.e10)**(2./7.)),0.d0)        
+      Nej=max((Pex-(Mb/pi**2)**(1./3.)*F/aej)/Pex,0.d0)        
       F1=Pej*Nej                !all mergers at t'
-      
+
       Pex=min((0.7e-1/aej)**(8./7.)*(m1*m2*Mb*(s-X0)/1.e10/1.e3
      &     )**(2./7.),1.d0)      
       Pej=(1.-Pin)*Pex          !all mergers with very short merger time      
       if(Pej.lt.0)Pej=0.
       
-      Nej=max((((0.7e-1/aej)**(8./7.)*(m1*m2*Mb/1.e3*
-     &    (s-X0)/1.e10)**(2./7.))-(Mb/pi**2)**(1./3.)*F/aej)/
-     &     ((0.7e-1/aej)**(8./7.)*
-     &     (m1*m2*Mb/1.e3*(s-X0)/1.e10)**(2./7.)),0.d0)
+      Nej=max((Pex-(Mb/pi**2)**(1./3.)*F/aej)/Pex,0.d0)  
       F2=Pej*Nej
 
       mej=Mb+m3/(1.d0-epsilon)*max(log(aej/agw/q3**2),0.) !mass ejected by binary
@@ -663,14 +652,12 @@ C     the straight insertion sort.
       
       IF (N.LE.M) GOTO 900
       
-
       ISTK=0
       L=1
       R=N
       
  200  CONTINUE
       
-
       
       I=L
       J=R
@@ -699,7 +686,6 @@ C     the straight insertion sort.
          DATAP=DATA(INDEXP)
       ENDIF
       
-
       
  300  CONTINUE
       
@@ -709,7 +695,6 @@ C     the straight insertion sort.
       
  400  CONTINUE
       
-
       J=J-1
       IF (DATA(INDEX(J)).GT.DATAP) GOTO 400
       
