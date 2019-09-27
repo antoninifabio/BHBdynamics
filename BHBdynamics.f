@@ -37,7 +37,7 @@
       read(20,*)
       read(20,*)input,IMF,a,tf,td,freq
       tf=tf*1.d9                !cluster formation time
-      td=td*1.d9                !redshift for detection
+      td=td*1.d9                !look-back time of detection
       if(td.gt.tf)td=tf         !if cluster forms within td
 
       call read()
