@@ -6,7 +6,7 @@
       USE modelPar
       USE inputPar
       implicit none
-      real*8, external:: fun,fun2,funej     
+      real*8, external:: fun,funej2,funej     
       real*8 abserr,dec,dt,eccen,epsabs,epsrel,Fej1,Fej2,tfin
       real*8 Fej,Fin,Ntot,step,t,td,td0,X0,X1,Gamma,N0,N1,tf0
       integer j,i,i2,h,k,l,m,n,cont,cont2,kick   
@@ -70,7 +70,7 @@
          
          X0=td0
          X1=tf        
-         call dqag (fun2,X0,X1,epsabs, epsrel, key, Fej2,abserr, 
+         call dqag (funej2,X0,X1,epsabs, epsrel, key, Fej2,abserr, 
      &        neval, ier, limit, lenw, last, iwork, work )
          
          write(77,"(F14.2,2F14.7)")td0/1.d9,Fin,Fej1+Fej2
@@ -91,7 +91,7 @@
      &     neval, ier, limit, lenw, last, iwork, work )
       X0=td
       X1=tf
-      call dqag (fun2,X0,X1,epsabs, epsrel, key, Fej2,abserr, 
+      call dqag (funej2,X0,X1,epsabs, epsrel, key, Fej2,abserr, 
      &     neval, ier, limit, lenw, last, iwork, work )            
       Ntot=Fin+Fej1+Fej2        !total number of mergers within td
       
@@ -114,7 +114,7 @@
      &        neval, ier, limit, lenw, last, iwork, work )        
          X0=td
          X1=tf
-         call dqag (fun2,X0,X1,epsabs, epsrel, key, Fej2,abserr, 
+         call dqag (funej2,X0,X1,epsabs, epsrel, key, Fej2,abserr, 
      &        neval, ier, limit, lenw, last, iwork, work )               
          
          if(eccen.ge.1.d0)exit
