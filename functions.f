@@ -46,7 +46,7 @@
       trh=2.06d5*sqrt(Mcl)*rh**1.5/psi/m_mean
       Edot=1.53d-7*csi*(Mcl**2/rh)/trh !convert to M_sun, 1AU, G=1
     
-!     binary properties: assume all BHs have same mass!
+!     binary properties: assume BHs have same mass!
       m2=m1
       m3=m1
       Mb=m1+m2
@@ -54,7 +54,7 @@
       aej=dE*m1*m2/(m1+m2+m3)*q3/vesc**2
       Rs=4.*(m1+m2)/c**2         
       
-      epsilon=1.d0/(1.d0+dE)      
+      epsilon=1./(1.+dE)      
       g=1.3*((m1*m2)**2*Mb/c**5/Edot)**(1./7.)    
       agw2=(g**2*7./10./(1.-epsilon))**(7./10.)
       Nis=20.                   !number of intermediate resonant states
@@ -70,15 +70,13 @@
       x=eccen
       F=1.*(1./fL)**(2./3.)*(1./x)**(12./19.)
      &     *(1./(1.+121./304.*x**2))**(870./2299.)*(1.+x)**(0.7969)
-
       Ngw=max((Pgw*(1.-epsilon)-(Mb**(1./3.)/pi**(2./3.)
-     &     /agw*F))/(Pgw*(1.-epsilon)),0.d0)      
+     &     /agw*F))/(Pgw*(1.-epsilon)),0.)      
       elcap=2.*(Rs/agw)**(5./7.)
       Ncap=max((elcap-(Mb**(1./3.)/pi**(2./3.)
-     &     /agw*F)*5./7.)/elcap,0.d0) 
+     &     /agw*F)*5./7.)/elcap,0.) 
       
-      mej=Mb+m3/(1.d0-epsilon)*max(log(aej/agw/q3**2),0.)  !mass ejected by binary
-      
+      mej=Mb+m3/(1.-epsilon)*max(log(aej/agw/q3**2),0.)  !mass ejected by binary      
       Gamma=(beta*Mcl/trh)/mej  !formation rate of binaries     
       
       fun=Gamma*(Pgw*Ngw+Pcap*Ncap)      
@@ -139,7 +137,7 @@
       aej=dE*m1*m2/(m1+m2+m3)*q3/vesc**2
       Rs=4.*(m1+m2)/c**2         
       
-      epsilon=1.d0/(1.d0+dE)      
+      epsilon=1./(1.+dE)      
       g=1.3*((m1*m2)**2*Mb/c**5/Edot)**(1./7.)    
       agw2=(g**2*7./10./(1.-epsilon))**(7./10.)
       Nis=20.                   !number of intermediate resonant states
@@ -151,8 +149,8 @@
       Pgw=7./10./(1.-epsilon)*g**2/agw**(10./7.)
       Pcap=K2/agw**(5./7.)
       Pin=Pgw+Pcap
-      Pex=min((0.7e-1/aej)**(8./7.)*(m1*m2*Mb*s/1.e10/1.e3
-     &     )**(2./7.),1d0)
+      Pex=min((0.7d-1/aej)**(8./7.)*(m1*m2*Mb*s/1.e10/1.e3
+     &     )**(2./7.),1.)
       Pej=(1.-Pin)*Pex
       if(Pej.lt.0)Pej=0.
     
@@ -160,9 +158,9 @@
       x=eccen
       F=1.*(1./fL)**(2./3.)*(1./x)**(12./19.)
      &     *(1./(1.+121./304.*x**2))**(870./2299.)*(1.+x)**(0.7969)     
-      Nej=max((Pex-(Mb/pi**2)**(1./3.)*F/aej)/Pex,0.d0)
+      Nej=max((Pex-(Mb/pi**2)**(1./3.)*F/aej)/Pex,0.)
       
-      mej=Mb+m3/(1.d0-epsilon)*max(log(aej/agw/q3**2),0.) !mass ejected by binary
+      mej=Mb+m3/(1.-epsilon)*max(log(aej/agw/q3**2),0.) !mass ejected by binary
           
       Gamma=(beta*Mcl/trh)/mej  !formation rate of binaries
       funej=Gamma*(Pej*Nej)
@@ -236,8 +234,8 @@
       Pgw=7./10./(1.-epsilon)*g**2/agw**(10./7.)
       Pcap=K2/agw**(5./7.)
       Pin=Pgw+Pcap
-      Pex=min((0.7e-1/aej)**(8./7.)*(m1*m2*Mb*s/1.e10/1.e3
-     &     )**(2./7.),1.d0)
+      Pex=min((0.7d-1/aej)**(8./7.)*(m1*m2*Mb*s/1.e10/1.e3
+     &     )**(2./7.),1.)
       Pej=(1.-Pin)*Pex
       if(Pej.lt.0)Pej=0.
 
@@ -246,18 +244,18 @@
       F=1.*(1./fL)**(2./3.)*(1./x)**(12./19.)
      &     *(1./(1.+121./304.*x**2))**(870./2299.)*(1.+x)**(0.7969)
 
-      Nej=max((Pex-(Mb/pi**2)**(1./3.)*F/aej)/Pex,0.d0)        
+      Nej=max((Pex-(Mb/pi**2)**(1./3.)*F/aej)/Pex,0.)        
       F1=Pej*Nej                !all mergers at t'
 
-      Pex=min((0.7e-1/aej)**(8./7.)*(m1*m2*Mb*(s-X0)/1.e10/1.e3
-     &     )**(2./7.),1.d0)      
+      Pex=min((0.7d-1/aej)**(8./7.)*(m1*m2*Mb*(s-X0)/1.e10/1.e3
+     &     )**(2./7.),1.)      
       Pej=(1.-Pin)*Pex          !all mergers with very short merger time      
       if(Pej.lt.0)Pej=0.
       
-      Nej=max((Pex-(Mb/pi**2)**(1./3.)*F/aej)/Pex,0.d0)  
+      Nej=max((Pex-(Mb/pi**2)**(1./3.)*F/aej)/Pex,0.)  
       F2=Pej*Nej
 
-      mej=Mb+m3/(1.d0-epsilon)*max(log(aej/agw/q3**2),0.) !mass ejected by binary
+      mej=Mb+m3/(1.-epsilon)*max(log(aej/agw/q3**2),0.) !mass ejected by binary
       Gamma=(beta*Mcl/trh)/mej  !formation rate of binaries      
       fun2=(F1-F2)*Gamma
 
