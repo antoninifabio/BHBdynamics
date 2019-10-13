@@ -59,17 +59,19 @@
             open (unit=78,file="mbh.txt",action="READ",status="OLD") !file with masses of BHs after SN kicks          
             j=0
             mr=0.d0
-            do while (mr.lt.tabmbh(1)) !read BH masses
+            do !while (mr.lt.tabmbh(1)) !read BH masses
                j=j+1
                read(78,*,end=13)w(j)
                mr=mr+w(j)            
             end do
  13         call SORTRX(j,w,INDEX) !sort m()
+            mr=tabmbh(1)/mr  
+            
             Mtot=0.d0
             do i=1,j            
                tabmax(i)=w(INDEX(i))            
                Mtot=tabmax(i)+Mtot
-               tabmbh_p(i)=Mtot            
+               tabmbh_p(i)=Mtot*mr            
             end do
             cont2=i         
             CALL FMMsplineDouble(tabmbh_p,tabmax,c10,c11,c12,cont2) !make M(<m)
