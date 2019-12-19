@@ -20,7 +20,7 @@
       SAVE c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12,INDEX,w
       END MODULE commonV
       
-      MODULE modelPar     
+      MODULE modelPar      
       real*8 csi,m_mean,tcc,a1,beta,dE     
       SAVE csi,m_mean,tcc,a1,beta,dE     
       END MODULE modelPar
