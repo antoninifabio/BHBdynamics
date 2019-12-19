@@ -4,7 +4,7 @@
       real*8 freq,tf,a
       SAVE input,IMF,freq,tf,a
       END MODULE inputPar
-      
+       
       MODULE commonV      
       integer, parameter:: Nmax=100000
       integer cont,cont2
